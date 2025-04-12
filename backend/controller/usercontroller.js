@@ -74,16 +74,15 @@ const loginUser = async(req,res)=>{
 }
 
 // API to get user profile data
-const getprofile = async(req,res)=>{
+const getprofile = async(req, res) => {
   try {
-    
-    const {userId} = req.body
+    const {userId} = req.user
     const userData = await userModel.findById(userId).select('-password')
-    
-    res.json({sucess : true,userData})
+    console.log(userData)
+    res.json({success: true, userData})
   } catch (error) {
     console.log(error);
-    res.json({sucess : false,message : error.message })
+    res.json({success: false, message: error.message})
   }
 }
 

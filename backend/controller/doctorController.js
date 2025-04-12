@@ -51,4 +51,4 @@ const logindoctor  = async(req,res) =>{
     
   }
 }
-export {changeAvailablity,doctorList}
+export {changeAvailablity,doctorList,logindoctor}

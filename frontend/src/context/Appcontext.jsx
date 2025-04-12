@@ -31,13 +31,16 @@ const AppContextProvider = (props) => {
   const loadUserProfiledata = async () => {
     try {
       const { data } = await axios.get(`${backendurl}/api/user/get-profile`, {
-        headers: { Authorization: `Bearer ${token}` }, // ✅ Fixed header format
+       headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (data.success && data.userData) {
         setUserData(data.userData);
       } else {
         setUserData(null);
+        console.log(data)
         toast.error(data.message || "Failed to load user profile");
       }
     } catch (error) {
