@@ -12,7 +12,7 @@ function Myprofile() {
   const[isEdit,setIsEdit] = useState(true)
 const [image , setImage] = useState(false)
 
-const uploadUserProfileData = async() =>{
+const updateUserProfileData = async() =>{
   
   try {
     const formData = new formData()
