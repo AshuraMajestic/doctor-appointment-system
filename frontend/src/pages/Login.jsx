@@ -37,7 +37,7 @@ function Login() {
           password,
         });
 
-        if (data.success) {
+        if (data.sucess) {
           localStorage.setItem("token", data.token);
           setToken(data.token);
           toast.success("Login successful!");

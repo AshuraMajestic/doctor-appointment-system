@@ -40,7 +40,6 @@ const AppContextProvider = (props) => {
         setUserData(data.userData);
       } else {
         setUserData(null);
-        console.log(data)
         toast.error(data.message || "Failed to load user profile");
       }
     } catch (error) {

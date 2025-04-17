@@ -78,7 +78,6 @@ const getprofile = async(req, res) => {
   try {
     const {userId} = req.user
     const userData = await userModel.findById(userId).select('-password')
-    console.log(userData)
     res.json({success: true, userData})
   } catch (error) {
     console.log(error);
@@ -115,70 +114,69 @@ const updateProfile = async(req,res)=>{
 
 
 // Api to Book appoinment
-const bookAppoinment = async (req,res)=>{
-
+const bookAppoinment = async (req, res) => {
   try {
-    
-    const {userId,docId,slotDate,slotTime} = req.body
+    const {docId, slotDate, slotTime } = req.body;
+    const {userId} = req.user
+    const docData = await doctorModel.findById(docId).select('-password');
 
-    const docData = await doctorModel.findById(docId).select('-password')
-
-    if (!docData.available) {
-      return res.json({sucess : false, message : 'Doctor not available'})
+    if (!docData.availabe) {
+      return res.json({ success: false, message: 'Doctor not available' });
     }
 
-    let slots_booked = docData.slots_booked
+    let slots_booked = docData.slot_booked;
 
-    // Checking for slot availabilty
+    // Checking for slot availability
     if (slots_booked[slotDate]) {
       if (slots_booked[slotDate].includes(slotTime)) {
-        return res.json({sucess : false, message : 'Slot not available'})
-      }else  {
-        slots_booked[slotDate].push(slotTime)
+        return res.json({ success: false, message: 'Slot not available' });
+      } else {
+        slots_booked[slotDate].push(slotTime);
       }
-    {
-        slots_booked[slotDate] = []
-       slots_booked[slotDate].push(slotTime)
-      }
-      const userData = await userModel.findById(userId).select('-password')
-
-      delete docData.slots_booked
-
-const appoinmentData = {
-  userId,
-  docId,
-  userData,
-  docData,
-  amount: docData.fees,
-  slotTime ,
-  slotDate,
-  date : Date.now()
-}
-const newAppoinment = new appointmentModel1(appoinmentData)
-await newAppoinment.save()
-
-// save now slots data in docData
-await doctorModel.findByIdAndUpdate(docId,{slots_booked})
-
-res.json({sucess : true , message : 'Appoimment Booked'})
+    } else {  // Added the missing "else" keyword
+      slots_booked[slotDate] = [];
+      slots_booked[slotDate].push(slotTime);
     }
+    
+    const userData = await userModel.findById(userId).select('-password');
+
+    delete docData.slot_booked;
+
+    const appoinmentData = {
+      userId,
+      docId,
+      userData,
+      docData,
+      amount: docData.fees,
+      slotTime,
+      slotDate,
+      date: Date.now()
+    };
+    
+    const newAppoinment = new appointmentModel1(appoinmentData);
+    await newAppoinment.save();
+
+    // save now slots data in docData
+    await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    res.json({ success: true, message: 'Appointment Booked' });
   } catch (error) {
     console.log(error);
-    res.json({sucess : false,message : error.message })
+    res.json({ success: false, message: error.message });
   }
-}
+};
 
 // Api to get user appoinmentd for frontend my-appoinments page
 const listAppoinments = async(req , res) =>{
 
   try {
-    const {userId} = req.body
+    const {userId} = req.user
    const appoinments = await appointmentModel1.find({userId})
    res.json({sucess : true, appoinments})
 
   } catch (error) {
     console.log(error);
-        res.json({sucess : false,message : error.message })
+        res.json({sucess : false,message : error.message+"no" })
 
   }
 }

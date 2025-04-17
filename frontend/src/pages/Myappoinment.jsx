@@ -4,7 +4,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 function Myappoinment() {
 
-  const {backendUrl, token,getDoctorsData} = useContext(AppContext)
+  const {backendurl, token,getDoctorsData,doctors} = useContext(AppContext)
   const [appoinment,setAppoinment] = useState([])
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -15,7 +15,15 @@ const slotDateFormat =  (slotDate) =>{
 
   const getUserAppoinments = async () =>{
     try {
-      const {data} = await axios.get(backendUrl + '/api/uer/appoinments',{headers : {token}})
+      const { data } = await axios.get(
+        `${backendurl}/api/user/appoinments`, 
+        {}, 
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
 
       if (data.sucess) {
         setAppoinment(data.appoinment.reverse())
@@ -31,9 +39,9 @@ const slotDateFormat =  (slotDate) =>{
 
   const cancelappoinments = async (appoinmentId) =>{
     try {
-const {data} = await axios.post(backendUrl + '/api/user/cancel-appoinment',{appoinment},{headers : {token}})
+const {data} = await axios.post(backendurl + '/api/user/cancel-appoinment',{appoinment},{headers : {token}})
 if (data.sucess) {
-  toast.sucess(data.message)
+  toast.success(data.message)
  getUserAppoinments()
 }else{
   toast.error(data.message)
@@ -90,14 +98,14 @@ const initPay = (order) =>{
         {doctors.slice(0,3).map((item,index)=>(
           <div className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b' key={index}>
           <div> 
-          <img className='w-32 bg-indigo-50' src={item.docData.image} alt=''/>
+          <img className='w-32 bg-indigo-50' src={item.image} alt=''/>
           </div>
           <div className='flex-1 text-sm text-zinc-600'>
-          <p className='text-netural-800 font-semibold'>{item.docData.name}</p>
-          <p>{item.docData.speciality}</p>
+          <p className='text-netural-800 font-semibold'>{item.name}</p>
+          <p>{item.speciality}</p>
           <p className='text-zinc-700 font-medium mt-1'>Address</p>
-          <p className='text-xs'>{item.docData.address.line1}</p>
-          <p className='text-xs'>{item.docData.address.line2}</p>
+          <p className='text-xs'>{item.address.line1}</p>
+          <p className='text-xs'>{item.address.line2}</p>
           <p className='text-xs mt-1'><span className='text-sm text-netural-700 font-medium'>Date & Time : </span> 25,july,2024 | 8:30 Pm</p>
           </div>
 

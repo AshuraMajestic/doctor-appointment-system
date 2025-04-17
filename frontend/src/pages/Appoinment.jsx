@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function Appoinment() {
   const { docId } = useParams();
-  const { doctors,currencySymbol,backendUrl , token, getDoctorsData } = useContext(AppContext);
+  const { doctors,currencySymbol,backendurl , token, getDoctorsData } = useContext(AppContext);
   const dayofWeek = ['SUN', 'MON', 'TUE', 'WED', "THU", "FRI", "SAT"];
 
   const navigate = useNavigate()
@@ -64,7 +64,7 @@ function Appoinment() {
           const slotDate = day + '-' + month + '-' + year
           const slotTime = formattedTime
 
-          const isSlotAvailble = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true
+          const isSlotAvailble = docInfo.slot_booked[slotDate] && docInfo.slot_booked[slotDate].includes(slotTime) ? false : true
 
  if (isSlotAvailble) {
   // add slots to array
@@ -95,7 +95,7 @@ function Appoinment() {
       return navigate('/login')
     }
     try {
-       const date = docSlots[slotIndex][0].datatime
+       const date = docSlots[slotIndex][0].datetime
 
        let day = date.getDate()
        let month = date.getMonth()+1
@@ -103,10 +103,18 @@ function Appoinment() {
        
 const slotDate = day + '-' + month + '-' + year
  
-const { data} = await axios.post(backendUrl,+ '/api/user/book-appoinment',{docId,slotDate,slotTime},{headers : {token}})
+const { data } = await axios.post(
+  `${backendurl}/api/user/book-appoinment`, 
+  {docId, slotDate, slotTime}, 
+  {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }
+);
 
-if (data.sucess) {
-  toast.sucess(data.message)
+if (data.success) {
+  toast.success(data.message)
   getDoctorsData()
   navigate('/my-appoinments')
 }  else {
