@@ -5,7 +5,7 @@ import { changeAvailablity } from '../controller/doctorController.js'
 import adminAuth from '../middleware/authAdmin.js'
 const adminRoutes = express.Router()
 
-adminRoutes.post('/add-doctor',adminAuth,upload.single('Image'),addDoctor)
+adminRoutes.post('/add-doctor',adminAuth,upload.single('image'),addDoctor)
 adminRoutes.post('/login',loginAdmin)
 adminRoutes.post('/all-doctors',adminAuth,alldoctors)
 adminRoutes.post('/change-availablity',adminAuth,changeAvailablity)

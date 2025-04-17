@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const AdminContext = createContext();
@@ -21,8 +22,7 @@ const AdminContextProvider = ({ children }) => {
         {}, 
         { headers: { atoken } }
       );
-
-      if (data.success) {
+      if (data.sucess) {
         setDoctors(data.doctors);
         console.log(data.doctors);
       } else {

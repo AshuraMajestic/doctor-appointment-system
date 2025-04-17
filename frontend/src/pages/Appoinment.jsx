@@ -8,7 +8,6 @@ import axios from 'axios';
 
 function Appoinment() {
   const { docId } = useParams();
-  console.log(docId)
   const { doctors,currencySymbol,backendUrl , token, getDoctorsData } = useContext(AppContext);
   const dayofWeek = ['SUN', 'MON', 'TUE', 'WED', "THU", "FRI", "SAT"];
 

@@ -39,7 +39,7 @@ const doctorSchema = new mongoose.Schema({
     // required : true
     default : true
   },
-  free :{
+  fees :{
     type : Number,
     required : true
   },

@@ -1,4 +1,4 @@
-import isEmail from 'validator/lib/isEmail.js';
+
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel1 from '../models/Appoinment.js';
 import validator from 'validator'
@@ -10,16 +10,16 @@ import jwt from 'jsonwebtoken'
 // Api for adding Doctor
 const addDoctor = async(req , res)=>{
   try {
-    const {email,name,password,speciality,degree,experience,about,fee,address} = req.body;
+    const {email,name,password,speciality,degree,experience,about,fees,address} = req.body;
     const imageFile = req.file;
 
   // Checking for all data to add doctor
-  if (!name  || !password || !speciality || !degree || !experience || !about || !fee || !address) {
+  if (!name  || !password || !speciality || !degree || !experience || !about || !fees || !address) {
     return res.json({sucess : false, message : "Missing Details"})
   }
 
   // vaildating email format
-  if (!validator,isEmail(email)) {
+  if (!validator.isEmail(email)) {
     return res.json({sucess : false, message : "Please Enter Vaild Details"})
 
   }
@@ -45,7 +45,7 @@ const addDoctor = async(req , res)=>{
     degree,
     experience,
     about,
-    fee,
+    fee:fees,
     address : JSON.parse(address),
     date : Date.now()
   }
@@ -68,7 +68,7 @@ const loginAdmin = async(req,res) =>{
 
     const {email,password} = req.body
 
-    if (email === process.env.ADMIN_EMAI && process.env.ADMIN_PASSWOD )  {
+    if (email === process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWOD )  {
       
       const token = jwt.sign(email +password,process.env.JWT_SECRET)
       res.json({sucess : true, token })

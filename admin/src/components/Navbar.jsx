@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
 
-   const [atoken] = useContext(AdminContext)
+  const { atoken, setAtoken } = useContext(AdminContext);
 
    const navigate = useNavigate()
    

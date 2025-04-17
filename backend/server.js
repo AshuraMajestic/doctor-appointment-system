@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/mongodb.js';
-import connectcloudinary from './config/clodinary.js';
+import connectCloudinary from './config/clodinary.js';
+
 import adminRoutes from './routes/adminRoutes.js';
 import doctorRouter from './routes/doctorRoutes.js';
 import userRouter from './routes/userRoutes.js';
@@ -14,14 +15,16 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 connectDB()
-connectcloudinary()
+connectCloudinary()
 
 // Middleware
+const allowedOrigins = ['http://localhost:5173','http://localhost:5176']; 
+
 app.use(cors({
-  origin: 'http://localhost:5176',
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'token']
+  allowedHeaders: ['Content-Type', 'Authorization', 'token','atoken']
 }));
 
 app.use(express.json());

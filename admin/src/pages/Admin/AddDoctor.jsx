@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react'
 import { assets } from '../../assets/assets'
 import AdminContextProvider, {AdminContext} from '../../context/AdminContext'
-import toast from 'react-toastify'
+import {toast} from 'react-toastify'
 import axios from 'axios'
 
 function AddDoctor() {
@@ -17,12 +17,13 @@ function AddDoctor() {
  const [specialist,setSpecialist] = useState('General Physician')
  const [degree,setDegree] = useState('')
  const [address1, setAddress1] = useState('')
- console [address2,setAddress2] = useState('')
+ const [address2,setAddress2] = useState('')
+ const { backendurl, atoken } = useContext(AdminContext)
 
- const {backendUrl, atoken} = useContext(AdminContext)
 
  const onSumbitHandler = async(event) =>{
-  event.preventdefault()
+  event.preventDefault()
+
 
   try {
     if(!docImg){
@@ -37,7 +38,9 @@ function AddDoctor() {
     formdata.append('experience',experience)
     formdata.append('fees',Number(fees))
     formdata.append('about',about)
-    formdata.append('specailist',specialist)
+    formdata.append('speciality', specialist)
+
+    formdata.append('degree',degree)
   formdata.append('address',JSON.stringify({line1: address1,line2 : address2}))
 
   // console.log formdata
@@ -45,10 +48,13 @@ function AddDoctor() {
     console.log(`$(key) : ${value}`)
   })
 
-  const {data} = await axios.post(backendUrl + '/api/admin/add-doctor',formdata,{headers : {atoken}})
+  const {data} = await axios.post(backendurl + '/api/admin/add-doctor',formdata,{headers : {atoken}})
 
   if(data.sucess){
-    toast.sucess(data.message)
+    if (data.success){
+      toast.success(data.message)
+    }
+    
     setDocImg(false)
     setName('')
     setPassword('')
@@ -59,7 +65,7 @@ function AddDoctor() {
     setAbout('')
     setFess('')
   }else{
-    toast.headers(data.message)
+    toast.error(data.message)
   }
   } catch (error) {
     toast.error(error.message)
