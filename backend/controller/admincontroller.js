@@ -1,5 +1,6 @@
 
 import doctorModel from '../models/doctorModel.js'
+import userModel from '../models/UserModel.js'
 import appointmentModel1 from '../models/Appoinment.js';
 import validator from 'validator'
 import bcrypt from 'bcrypt'
@@ -144,7 +145,6 @@ const admindashboard  = async(req , res) =>{
     const doctors = await doctorModel.find({})
     const user = await userModel.find({})
     const appoinments = await appointmentModel1.find({})
-
     const dashboard = {
       doctors : doctors.length,
       appoinments : appoinments.length,

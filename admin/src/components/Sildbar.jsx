@@ -18,7 +18,7 @@ function Sidebar() {
                   isActive ? 'bg-[#F2F3FF] border-r-4 border-blue-500' : ''
                 }`
               }
-              to="/"
+              to="/admin-dashboard"
             >
               <img src={assets.home_icon} />
               <p>Dashboard</p>
@@ -30,7 +30,7 @@ function Sidebar() {
                   isActive ? 'bg-[#F2F3FF] border-r-4 border-blue-500' : ''
                 }`
               }
-              to="/admin-dashboard/"
+              to="/all-appoinments"
             >
               <img src={assets.appointment_icon} />
               <p>Appointments</p>

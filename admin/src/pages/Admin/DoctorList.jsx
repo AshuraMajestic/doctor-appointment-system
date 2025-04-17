@@ -8,7 +8,6 @@ function DoctorList() {
   useEffect(()=>{
     if(atoken){
       getAlldoctors()
-      console.log(doctors)
     }
   },[atoken])
 

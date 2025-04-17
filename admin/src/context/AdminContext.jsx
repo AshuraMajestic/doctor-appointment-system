@@ -24,7 +24,6 @@ const AdminContextProvider = ({ children }) => {
       );
       if (data.sucess) {
         setDoctors(data.doctors);
-        console.log(data.doctors);
       } else {
         toast.error(data.message);
       }
@@ -55,7 +54,7 @@ const AdminContextProvider = ({ children }) => {
 
   const getAllappoinment = async() =>{
     try {
-      const {data} =await axios.get(backendurl + 'api/admin/appoinmnment',{headers : {atoken}})
+      const {data} =await axios.get(backendurl + 'api/admin/appoinments',{headers : {atoken}})
       if (data.success) {
         setAppoinment(data.appoinment)
       }else{
@@ -73,7 +72,7 @@ const AdminContextProvider = ({ children }) => {
     }
   }, [atoken]);
 
-  const cancelappoinments = async() =>{
+  const cancelappoinments = async(appoinmentId) =>{
     try {
       const {data} = await axios.post(backendurl + 'api/admin/cancel-appoinment',{appoinmentId},{headers :{atoken}} )
       if (data.success) {
@@ -89,11 +88,9 @@ const AdminContextProvider = ({ children }) => {
 
   const getDashData = async() =>{
     try {
-      const {data} = await axios.get(backendurl + '/api/admin/dashboard',{headers : {atoken}})
-      if (data.success) {
-        setDashdata(data.dashdata)
-        console.log(data.dashdata);
-        
+      const {data} = await axios.get(backendurl + '/api/admin/admin-dashboard',{headers : {atoken}})
+      if (data.sucess) {
+        setDashdata(data.dashboard)
       }else{
         toast.error(data.message)
       }
@@ -103,7 +100,7 @@ const AdminContextProvider = ({ children }) => {
     }
   }
   // Context value
-  const value = { atoken, setAtoken, backendurl, doctors, getAlldoctors, changeAvailability,getAllappoinment ,cancelappoinments ,getDashData,dashdata };
+  const value = { atoken, setAtoken, backendurl, doctors, getAlldoctors,appoinment, changeAvailability,getAllappoinment ,cancelappoinments ,getDashData,dashdata };
 
   return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>;
 };

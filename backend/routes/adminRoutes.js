@@ -11,7 +11,7 @@ adminRoutes.post('/all-doctors',adminAuth,alldoctors)
 adminRoutes.post('/change-availablity',adminAuth,changeAvailablity)
 adminRoutes.post('/appoinments',adminAuth,appoinmentAdmin)
 adminRoutes.post('/cancel-appoinment', adminAuth, cancelappoinments )
-adminRoutes.post('/admin-dashboard', adminAuth, admindashboard)
+adminRoutes.get('/admin-dashboard', adminAuth, admindashboard)
 
 
 export default adminRoutes

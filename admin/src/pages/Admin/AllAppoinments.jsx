@@ -6,9 +6,9 @@ import { AppContext } from '../../context/AppContext'
 import { isAxiosError } from 'axios'
 import {assets} from '../../assets/assets'
 function AllAppoinments() {
-   const [aToken, appoinment, getAllappoinment] = useContext(AdminContext)
+   const {aToken, appoinment, getAllappoinment,cancelappoinments} = useContext(AdminContext)
 
-    const {calculateAge,sloteDate, currency , cancelappoinment} = useContext(AppContext)
+    const {calculateAge,slotDateFormat, currency} = useContext(AppContext)
 
    useEffect(()=>{
     if (aToken) {
@@ -46,7 +46,7 @@ function AllAppoinments() {
 <p>{currency}{item.amount}</p>
 {item.cancelled 
 ?     <p className='text-red-400 text-sm font-medium'>cancelled</p> 
-: <img onClick={()=>cancelappoinment(item._id)} src={assets.cancel_icon} className='w-10 cursor-pointer' alt=''/> }
+: <img onClick={()=>cancelappoinments(item._id)} src={assets.cancel_icon} className='w-10 cursor-pointer' alt=''/> }
           </div>
         ))}
       </div>

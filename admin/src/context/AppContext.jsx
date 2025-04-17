@@ -23,7 +23,8 @@ const slotDateFormat =  (slotDate) =>{
 
   const value = {
     calculateAge,
-    slotDateFormat
+    slotDateFormat,
+    currency
     // Define any global state or functions here
   };
 
