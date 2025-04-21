@@ -116,7 +116,7 @@ const { data } = await axios.post(
 if (data.success) {
   toast.success(data.message)
   getDoctorsData()
-  navigate('/my-appoinments')
+  navigate('/my-appointment')
 }  else {
   toast.error(data.message)
 }

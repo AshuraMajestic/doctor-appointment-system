@@ -3,9 +3,9 @@ import jwt from 'jsonwebtoken'
 // Admin authentication middlware
 const authUser = async(req, res, next) => {
   try {
+    
     // Get the token from the Authorization header using Bearer scheme
     const authHeader = req.headers.authorization
-    
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.json({success: false, message: "Not Authorized Login Again"})
     }
