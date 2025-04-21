@@ -9,7 +9,7 @@
     "server": "nodemon server.js",
     "dev": "nodemon server.js"
   },
-  "author": "",
+  "author": "ashuramajestic",
   "license": "ISC",
   "description": "",
   "dependencies": {
