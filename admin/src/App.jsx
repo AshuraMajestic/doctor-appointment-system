@@ -10,6 +10,7 @@ import AllAppoinments from "./pages/Admin/AllAppoinments";
 import Dashboard from "./pages/Admin/Dashboard";
 import AddDoctor from "./pages/Admin/AddDoctor";
 import DoctorList from "./pages/Admin/DoctorList";
+import Navigate from "./pages/Admin/Navigate";
 
 function App() {
   const { atoken,setAtoken } = useContext(AdminContext)
@@ -23,7 +24,7 @@ function App() {
     <div className="flex items-center">
       <Sildbar/>
       <Routes>
-        <Route path="/" element={<></>}/>
+        <Route path="/" element={<Navigate/>}/>
         <Route path="/admin-dashboard" element={<Dashboard/>}/>
         <Route path="/all-appoinments" element={<AllAppoinments/>}/>
         <Route path="/add-doctor" element={<AddDoctor/>}/>

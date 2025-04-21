@@ -99,7 +99,6 @@ const alldoctors = async(req ,res)=>{
 // Api to get all appoinment List
 
 const appoinmentAdmin = async(req,res) =>{
-
   try {
     const appoinment = await appointmentModel1.find({})
   res.json({sucess: true, appoinment})
@@ -112,32 +111,47 @@ const appoinmentAdmin = async(req,res) =>{
 }
 
 // api for appoinment canellation
-const cancelappoinments = async(req,res)=>{
+// API to cancel appointment
+const cancelappoinments = async (req, res) => {
   try {
-    const { appoinmentId} = req.body;
-    const appoinmensData = await appointmentModel1.findById(appoinmentId);
+    const { appoinmentId } = req.body;
 
- 
-    
-    await appointmentModel1.findByIdAndUpdate(appoinmentId, {cancelled : true})
+    const appoinmentData = await appointmentModel1.findById(appoinmentId);
+    if (!appoinmentData) {
+      return res.json({ success: false, message: 'Appointment not found' });
+    }
 
-    // Releasing Doctor Slot
-    const {docId, slotDate, slotTime }= appoinmensData
+   
 
-    const docData = await doctorModel.findById(docId)
-    let  slots = docData.slots_booked
+    // Mark appointment as cancelled
+    await appointmentModel1.findByIdAndUpdate(appoinmentId, { cancelled: true });
 
-    slots_booked[slotDate] = slots_booked[slotDate].filter(e => e!== slotTime)
-    await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+    // Free up the doctor's slot
+    const { slotDate, slotTime } = appoinmentData;
+    const docId = appoinmentData.docData._id;
 
-    res.json({sucess : true, message : error.message})
+    const docData = await doctorModel.findById(docId);
+    const slots = { ...docData.slot_booked };
 
-  }catch (error) {
+    if (slots[slotDate]) {
+      slots[slotDate] = slots[slotDate].filter(time => time !== slotTime);
+      if (slots[slotDate].length === 0) {
+        delete slots[slotDate];
+      }
+    }
+
+    await doctorModel.findByIdAndUpdate(docId, {
+      slot_booked: slots,
+    });
+
+    res.json({ success: true, message: 'Appointment cancelled successfully' });
+
+  } catch (error) {
     console.log(error);
-    res.json({sucess : false, message : error.message})
-    
+    res.json({ success: false, message: error.message });
   }
-}
+};
+
 
 // Api to get the dashboard data for admin panel
 const admindashboard  = async(req , res) =>{

@@ -7,13 +7,18 @@ export const AdminContext = createContext();
 
 const AdminContextProvider = ({ children }) => {
   // State management
-  const [atoken, setAtoken] = useState(localStorage.getItem("atoken") || "");
+  const [atoken, setAtoken] = useState(localStorage.getItem("atoken") || false);
   const [doctors, setDoctors] = useState([]);
   const [appoinment , setAppoinment] = useState([])
-  const [dashdata,setDashdata] = useState(false)
+  const [dashdata,setDashData] = useState(null)
 
   const backendurl = import.meta.env.VITE_BACKEND_URL;
-
+  
+  useEffect(() => {
+    const storedToken = localStorage.getItem("atoken");
+    setAtoken(storedToken)
+  }, []);
+  
   // Function to fetch all doctors
   const getAlldoctors = async () => {
     try {
@@ -54,8 +59,10 @@ const AdminContextProvider = ({ children }) => {
 
   const getAllappoinment = async() =>{
     try {
-      const {data} =await axios.get(backendurl + 'api/admin/appoinments',{headers : {atoken}})
-      if (data.success) {
+      const {data} =await axios.get(`${backendurl}/api/admin/appoinments`,{headers : {atoken}})
+
+      if (data.sucess) {
+
         setAppoinment(data.appoinment)
       }else{
         toast.error(data.message)
@@ -74,7 +81,7 @@ const AdminContextProvider = ({ children }) => {
 
   const cancelappoinments = async(appoinmentId) =>{
     try {
-      const {data} = await axios.post(backendurl + 'api/admin/cancel-appoinment',{appoinmentId},{headers :{atoken}} )
+      const {data} = await axios.post(`${backendurl}/api/admin/cancel-appoinment`,{appoinmentId},{headers :{atoken}} )
       if (data.success) {
         toast.success(data.message)
         getAllappoinment()
@@ -88,9 +95,9 @@ const AdminContextProvider = ({ children }) => {
 
   const getDashData = async() =>{
     try {
-      const {data} = await axios.get(backendurl + '/api/admin/admin-dashboard',{headers : {atoken}})
+      const {data} = await axios.get(`${backendurl}/api/admin/admin-dashboard`,{headers : {atoken}})
       if (data.sucess) {
-        setDashdata(data.dashboard)
+        setDashData(data.dashboard)
       }else{
         toast.error(data.message)
       }
