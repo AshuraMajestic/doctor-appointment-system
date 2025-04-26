@@ -59,8 +59,10 @@ const appoinmentsDoctor = async (req,res) =>{
 
   try {
     
-    const {docId} = req.body
-    const appoinments = await appointmentModel1.find({docId})
+    const {docId} = req.user
+    const objectDocId = new mongoose.Types.ObjectId(docId);  // convert to ObjectId
+
+    const appoinments = await appointmentModel1.find({ "docData._id": objectDocId });
 
     res.json({success : true, appoinments})
 
