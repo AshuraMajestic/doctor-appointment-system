@@ -16,14 +16,13 @@ const DoctorContextProvider = (props) => {
       const storedToken = localStorage.getItem("dtoken");
       setDtoken(storedToken)
     }, []);
+
   const getAppoinments = async() =>{
     try {
       
       const {data} = await axios.get(`${backendUrl}/api/doctor/appoinments`, {headers:{dtoken}})
-      if (data.sucess) {
+      if (data.success) {
         setAppoinments(data.appoinments)
-        console.log(data.appoinments);
-        
       }else{
   toast.error(data.message)
       }
@@ -54,9 +53,9 @@ const DoctorContextProvider = (props) => {
     try {
       const {data} = await axios.post(`${backendUrl}/api/doctor/complete-appoinment`,{appoinmentId},{headers : {dtoken}})
 
-      if (data.sucess) {
-  toast.success(data.message)
-  getAppoinments()        
+      if (data.success) {
+        toast.success(data.message)
+        getAppoinments()        
       }else{
         toast.error(data.message)
       }
@@ -70,9 +69,7 @@ const DoctorContextProvider = (props) => {
   try {
     const {data} = await axios.get(`${backendUrl}/api/doctor/dashboard`,{headers: {dtoken}})
     if (data.success) {
-      setDashData(data.dashData)
-      console.log(data.dashData);
-      
+      setDashData(data.dashData)      
     }else{
       toast.error(data.message)
     }
@@ -87,10 +84,8 @@ const DoctorContextProvider = (props) => {
   try {
 
     const {data} = await axios.get(`${backendUrl}/api/doctor/profile`,{headers : {dtoken}})
-
     if(data.success){
       setProfileData(data.profileData)
-      console.log(data.profileData)
       
     }
     
@@ -101,7 +96,7 @@ const DoctorContextProvider = (props) => {
  }
 
   
-  const value = {dtoken,setDtoken,backendUrl,setAppoinments,getAppoinments,cancelAppoinment,completeAppoinment,
+  const value = {dtoken,setDtoken,backendUrl,appoinments,setAppoinments,getAppoinments,cancelAppoinment,completeAppoinment,
     dashData,setDashData,getDashData , profileData , setProfileData, getProfileData
   };
 

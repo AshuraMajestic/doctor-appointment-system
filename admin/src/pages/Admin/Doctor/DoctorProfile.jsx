@@ -12,13 +12,13 @@ function DoctorProfile() {
   const [isEdit, setIsEdit] = useState(false)
 
   const updateProfile = async() =>{
-    try {
-      
-const updateData = {
-  address : profileData.address,
-  fees : profileData.fees,
-  available : profileData.available
-}
+          try {
+            
+      const updateData = {
+        address : profileData.address,
+        fees : profileData.fees,
+        availabe : profileData.availabe
+      }
 
 const {data} = await axios.post(backendUrl + '/api/doctor/update-profile',updateData,{headers:{dtoken}})
 
@@ -75,14 +75,14 @@ if (dtoken) {
     </div>
 
     <div className='flex gap-1 pt-2'>
-      <input onChange={()=> isEdit && setProfileData(prev =>({...prev,available: !prev.available}))} checked= {profileData.available} type='checkbox' name='' id=''/>
+      <input onChange={()=> isEdit && setProfileData(prev =>({...prev,availabe: !prev.availabe}))} checked= {profileData.availabe} type='checkbox' name='' id=''/>
       <label htmlFor=''> Available</label>
     </div>
 {
   isEdit
   ?   <button onClick={updateProfile} className='px-4 py-1 border border-blue-500 text-sm rounded-full mt-5 hover:bg-blue-500 hover:text-white transition-all'>Save</button>
   :
-  <button onClick={()=> setIsEdit(true)} className='px-4 py-1 border border-blue-500 text-sm rounded-full mt-5 hover:bg-blue-500 hover:text-white transition-all'>Save</button>
+  <button onClick={()=> setIsEdit(true)} className='px-4 py-1 border border-blue-500 text-sm rounded-full mt-5 hover:bg-blue-500 hover:text-white transition-all'>Edit</button>
 }
   
   </div>

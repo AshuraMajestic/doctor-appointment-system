@@ -62,7 +62,7 @@ function DoctorDashboard() {
                           {
                             item.cancelled
                             ? <p className='text-red-400 text-xs font-medium'>Cancelled</p>
-                            : item.isComplted
+                            : item.isCompleted
                             ? <p className='text-green-500 text-sm font-medium'>Completed</p>
                             :  <div className='flex'>
                             <img

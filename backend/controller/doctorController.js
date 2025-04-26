@@ -79,11 +79,11 @@ const appoinmentsDoctor = async (req,res) =>{
 
     try {
 
-      const {docId, appoinmentId} = req.body
+      const { appoinmentId} = req.body
+      const {docId}=req.user
 
       const appoinmentData = await appointmentModel1.findById(appoinmentId)
-
-      if (appoinmentData && appoinmentData.docId === docId) {
+      if (appoinmentData && appoinmentData.docData._id.toString() == docId){
         await appointmentModel1.findByIdAndUpdate(appoinmentId,{isCompleted : true})
         return res.json({success:true, message : 'Appoinment Completed'})
       }
@@ -102,12 +102,12 @@ const appoinmentsDoctor = async (req,res) =>{
 const appoinmentCancel = async (req,res) =>{
 
   try {
-
-    const {docId, appoinmentId} = req.body
+    const {docId}=req.user
+    const { appoinmentId} = req.body
 
     const appoinmentData = await appointmentModel1.findById(appoinmentId)
 
-    if (appoinmentData && appoinmentData.docId === docId) {
+    if (appoinmentData && appoinmentData.docData._id.toString() === docId){
       await appointmentModel1.findByIdAndUpdate(appoinmentId,{cancelled: true})
       return res.json({success:true, message : 'Appoinment Cancel'})
     }
@@ -133,11 +133,12 @@ const doctorDashboard = async(req,res) =>{
 
     let earnings = 0
 
-    appointments.map((item)=>{
+    appointments.forEach((item)=>{
       if (item.isCompleted || item.payment) {
         earnings += item.amount
       }
     })
+    
 
     let patients = []
 
@@ -166,7 +167,7 @@ const doctorProfile = async (req,res) =>{
 
   try {
     
-    const {docId} = req.body;
+    const {docId} = req.user;
     const profileData = await doctorModel.findById(docId).select('-password')
 
     res.json({success : true, profileData})
@@ -182,7 +183,8 @@ const updateDoctorProfile = async (req,res) =>{
 
   try {
     
-    const {docId,fees,address,available} = req.body
+    const {fees,address,available} = req.body
+    const {docId}=req.user
     await doctorModel.findByIdAndUpdate(docId,{fees,address,available})
     
     res.json({success : true , message : 'Profile Updated'})
