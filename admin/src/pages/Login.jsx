@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [state, setState] = useState("Admin");
-  const {setDToken} = useContext(DoctorContext)
+  const {setDtoken} = useContext(DoctorContext)
   const navigate = useNavigate();
   const { setAtoken, backendurl } = useContext(AdminContext);
   const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ function Login() {
       if (state === "Admin") {
         const { data } = await axios.post(backendurl + "/api/admin/login", { email, password });
 
+        console.log(setDtoken)
 
         if (data.sucess) {
           localStorage.setItem("atoken", data.token);
@@ -33,25 +34,18 @@ function Login() {
       } else {
         // ✅ Handle Doctor Login
         const { data } = await axios.post(backendurl + "/api/doctor/login", { email, password });
-
         if (data.success) {
-          localStorage.setItem("dToken", data.token);
-          if (setAtoken) {
-            setAtoken(data.token);
-            navigate('/admin-dashboard')
+          localStorage.setItem("dtoken", data.token);
+          console.log(setDtoken)
+          if (setDtoken) {
+            setDtoken(data.token);
+            navigate('/doctor-dashboard')
           }
         } else {
           toast.error(data.message);
         }
 
-        if (data.success) {
-          localStorage.setItem("dt_token", data.token);
-          if (setAtoken) {
-            setAtoken(data.token);
-          }
-        } else {
-          toast.error(data.message);
-        }
+       
       }
     } catch (error) {
       console.error("Login Error:", error);

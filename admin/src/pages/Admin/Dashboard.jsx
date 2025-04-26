@@ -13,7 +13,7 @@ function Dashboard() {
     }
   }, [atoken]);
 
-  console.log(dashdata?.latestAppoinment?.[0]); // Debug: Check first appoinment
+  
 
   return dashdata && (
     <div className='m-5'>
