@@ -14,6 +14,10 @@ function Login() {
   const [password, setPassword] = useState("");
   const userUrl=import.meta.env.VITE_USER_URL;
 
+  const handleClick =()=>{
+    console.log("clicked")
+    window.location.href = userUrl;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault(); // ✅ Prevent page reload
 
@@ -118,7 +122,7 @@ function Login() {
               </p>
               <p
                 className="text-blue-500 underline cursor-pointer"
-                onClick={() => window.location.href = userUrl}
+                onClick={handleClick}
               >
                 Go to User Page
               </p>
