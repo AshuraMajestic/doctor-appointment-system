@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/Appcontext";
 
 function Navbar() {
-  const navigate = useNavigate(); // ✅ Fixed Typo
-  const { token, setToken,userData } = useContext(AppContext); // ✅ Fixed Context
+  const navigate = useNavigate();
+  const { token, setToken, userData } = useContext(AppContext);
+  const adminurl=import.meta.env.VITE_ADMIN_URL
 
   const Logout = () => {
     setToken(false);
@@ -37,44 +38,51 @@ function Navbar() {
         <NavLink to="/contact">
           <li className="py-1">Contact</li>
         </NavLink>
+
+        {/* Admin Panel Button */}
+        <NavLink to={adminurl}>
+          <li className="py-1 px-4 border border-gray-300 rounded-full bg-white text-black hover:shadow-md hover:bg-gray-100 transition-all duration-200 cursor-pointer">
+            Admin Panel
+          </li>
+        </NavLink>
+
       </ul>
 
       <div className="flex items-center gap-4">
-  {token && userData ? (
-    <div className="relative group flex items-center gap-2 cursor-pointer">
-      <img className="w-8 rounded-full" src={assets.profile_pic} alt="Profile" />
-      <img className="w-2.5" src={assets.dropdown_icon} alt="Dropdown" />
+        {token && userData ? (
+          <div className="relative group flex items-center gap-2 cursor-pointer">
+            <img className="w-8 rounded-full" src={assets.profile_pic} alt="Profile" />
+            <img className="w-2.5" src={assets.dropdown_icon} alt="Dropdown" />
 
-      <div className="absolute top-full left-0 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-        <div className="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
-          <p
-            onClick={() => navigate("/my-profile")}
-            className="hover:text-black cursor-pointer"
+            <div className="absolute top-full left-0 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
+              <div className="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
+                <p
+                  onClick={() => navigate("/my-profile")}
+                  className="hover:text-black cursor-pointer"
+                >
+                  My Profile
+                </p>
+                <p
+                  onClick={() => navigate("/my-appointment")}
+                  className="hover:text-black cursor-pointer"
+                >
+                  My Appointment
+                </p>
+                <p onClick={Logout} className="hover:text-black cursor-pointer">
+                  Logout
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-blue-600 text-white px-8 py-3 rounded-full font-light hidden md:block"
           >
-            My Profile
-          </p>
-          <p
-            onClick={() => navigate("/my-appointment")}
-            className="hover:text-black cursor-pointer"
-          >
-            My Appointment
-          </p>
-          <p onClick={Logout} className="hover:text-black cursor-pointer">
-            Logout
-          </p>
-        </div>
+            Create Account
+          </button>
+        )}
       </div>
-    </div>
-  ) : (
-    <button
-      onClick={() => navigate("/login")}
-      className="bg-blue-600 text-white px-8 py-3 rounded-full font-light hidden md:block"
-    >
-      Create Account
-    </button>
-  )}
-</div>
-
     </div>
   );
 }

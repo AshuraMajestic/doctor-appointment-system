@@ -12,6 +12,7 @@ function Login() {
   const { setAtoken, backendurl } = useContext(AdminContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userUrl=import.meta.env.VITE_USER_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // ✅ Prevent page reload
@@ -87,20 +88,43 @@ function Login() {
         </button>
 
         {state === "Admin" ? (
-          <p>
-            Doctor Login?{" "}
-            <span className="text-blue-500 underline cursor-pointer" onClick={() => setState("Doctor")}>
-              Click here
-            </span>
-          </p>
-        ) : (
-          <p>
-            Admin Login?{" "}
-            <span className="text-blue-500 underline cursor-pointer" onClick={() => setState("Admin")}>
-              Click here
-            </span>
-          </p>
-        )}
+            <div className="flex justify-between w-full text-sm">
+              <p>
+                Doctor Login?{" "}
+                <span
+                  className="text-blue-500 underline cursor-pointer"
+                  onClick={() => setState("Doctor")}
+                >
+                  Click here
+                </span>
+              </p>
+              <p
+                className="text-blue-500 underline cursor-pointer"
+                onClick={() => navigate("/")}
+              >
+                Go to User Page
+              </p>
+            </div>
+          ) : (
+            <div className="flex justify-between w-full text-sm">
+              <p>
+                Admin Login?{" "}
+                <span
+                  className="text-blue-500 underline cursor-pointer"
+                  onClick={() => setState("Admin")}
+                >
+                  Click here
+                </span>
+              </p>
+              <p
+                className="text-blue-500 underline cursor-pointer"
+                onClick={() => window.location.href = userUrl}
+              >
+                Go to User Page
+              </p>
+            </div>
+          )}
+
       </div>
     </form>
   );
