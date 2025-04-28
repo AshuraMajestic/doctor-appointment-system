@@ -104,7 +104,7 @@ function Login() {
               </p>
               <p
                 className="text-blue-500 underline cursor-pointer"
-                onClick={() => navigate("/")}
+                onClick={handleClick}
               >
                 Go to User Page
               </p>
